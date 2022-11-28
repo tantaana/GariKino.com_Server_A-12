@@ -89,6 +89,13 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/userInfo', async (req, res) => {
+            const userType = req.query.userType;
+            const query = { userType: userType };
+            const result = await usersCollection.find(query).toArray();
+            res.send(result)
+        })
+
 
         app.post('/users', async (req, res) => {
             const user = req.body;
@@ -110,7 +117,7 @@ async function run() {
 
         app.get('/sellers', async (req, res) => {
             const query = {};
-            const users = await usersCollection.find(query).toArray();
+            const users = await productsCollection.find(query).toArray();
             res.send(users);
         })
     }
