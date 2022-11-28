@@ -115,6 +115,27 @@ async function run() {
             console.log(user)
         })
 
+        app.get('/users/admin/:userType', async (req, res) => {
+            const userType = req.params.userType;
+            const query = { userType };
+            const user = await usersCollection.findOne(query);
+            res.send({ isAdmin: user?.userType === "Admin" })
+        })
+
+        app.get('/users/seller/:userType', async (req, res) => {
+            const userType = req.params.userType;
+            const query = { userType };
+            const user = await usersCollection.findOne(query);
+            res.send({ isSeller: user?.userType === "Seller" })
+        })
+
+        app.get('/users/buyer/:userType', async (req, res) => {
+            const userType = req.params.userType;
+            const query = { userType };
+            const user = await usersCollection.findOne(query);
+            res.send({ isBuyer: user?.userType === "Buyer" })
+        })
+
         app.get('/sellers', async (req, res) => {
             const query = {};
             const users = await productsCollection.find(query).toArray();
