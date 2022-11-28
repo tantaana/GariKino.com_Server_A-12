@@ -60,8 +60,13 @@ async function run() {
             res.send(result)
         })
 
-        app.get('/userData', async (req, res) => {
+        app.get('/userData', verifyJWT, async (req, res) => {
             const email = req.query.email;
+            const decodedEmail = req.decoded.email;
+
+            if (email !== decodedEmail) {
+                return res.status(403).send({ message: 'Forbidden Access' })
+            }
             const query = { email: email };
             const result = await productsCollection.find(query).toArray();
             res.send(result)
