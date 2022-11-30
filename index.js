@@ -141,6 +141,26 @@ async function run() {
             const users = await productsCollection.find(query).toArray();
             res.send(users);
         })
+
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await usersCollection.deleteOne(filter);
+            res.send(result)
+        })
+
+        app.put('/users/info', async (req, res) => {
+            const email = req.query.email;
+            const filter = { email: email };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    isVerified: 'verified'
+                }
+            }
+            const result = await productsCollection.update(filter, updatedDoc, options)
+            res.send(result)
+        })
     }
     finally {
 
